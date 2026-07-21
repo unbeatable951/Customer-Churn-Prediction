@@ -30,20 +30,31 @@ Link: https://www.kaggle.com/datasets/blastchar/telco-customer-churn
 5. **Conclusion** – Summarized key findings, churn drivers, and a limitation of Logistic Regression for this problem.
 
 ## Results
-Run `Assignment-2.ipynb` end-to-end after adding the dataset CSV to reproduce the metrics. In general terms, the model:
-- Achieves solid overall accuracy on this fairly balanced-vs-imbalanced (~27% churn) dataset.
-- Shows the largest coefficients (churn drivers) around **contract type**, **tenure**, and **monthly charges** — customers on month-to-month contracts with short tenure and higher bills are more likely to churn.
-- Tends to have somewhat lower recall than precision on the churn class, meaning it is more conservative about flagging churners than it is accurate about the churners it does flag.
 
-*(Fill in your exact Accuracy / Precision / Recall / F1 values and confusion matrix numbers here after running the notebook.)*
+| Metric    | Score  |
+|-----------|--------|
+| Accuracy  | 0.8006 |
+| Precision | 0.6467 |
+| Recall    | 0.5481 |
+| F1-Score  | 0.5933 |
+
+![Confusion Matrix](confusion_matrix.png)
+
+**Observations:**
+1. The model correctly classifies about **80% of customers overall**, which is a solid baseline given the class imbalance in the dataset (~27% churn vs. ~73% no-churn).
+2. **Recall (0.548) is noticeably lower than precision (0.647)** — the model misses more actual churners than it wrongly flags. In a business setting this matters: a missed churner is a lost customer the company never tried to retain, so the classification threshold could be lowered to catch more true churners at the cost of some extra false alarms.
+3. The gap between accuracy and F1-score (0.593) highlights the effect of class imbalance — accuracy alone looks better than the model's actual balance of precision and recall on the minority (churn) class, which is why F1 and the confusion matrix are more informative here.
+
+Coefficient inspection showed the largest churn drivers to be **contract type, tenure, and monthly charges** — customers on month-to-month contracts with short tenure and higher monthly bills are the most likely to churn.
 
 ## Conclusion
-Logistic Regression proved to be an effective and interpretable baseline model for predicting customer churn. Contract type, tenure, monthly charges, and add-on services (online security, tech support) emerged as the strongest predictors — customers on month-to-month contracts with short tenure and higher bills are considerably more likely to churn, while long-term contracts and longer tenure correlate with retention. A key limitation of Logistic Regression is its assumption of a **linear relationship** between features and the log-odds of churn, which limits its ability to capture non-linear interactions between variables that models like Random Forest or XGBoost could better exploit.
+Logistic Regression proved to be an effective and interpretable baseline model for predicting customer churn, achieving 80% accuracy with a precision of 0.65 and recall of 0.55 on the test set. Contract type, tenure, monthly charges, and add-on services (online security, tech support) emerged as the strongest predictors — customers on month-to-month contracts with short tenure and higher bills are considerably more likely to churn, while long-term contracts and longer tenure correlate with retention. The moderate recall suggests the model is conservative about flagging churners, which could be adjusted via the classification threshold depending on business priorities. A key limitation of Logistic Regression is its assumption of a **linear relationship** between features and the log-odds of churn, which limits its ability to capture non-linear interactions between variables that models like Random Forest or XGBoost could better exploit.
 
 ## Repository Structure
 ```
-├── Assignment-2.ipynb   # Full notebook: all 5 tasks
-├── README.md            # This file
+├── Assignment-2.ipynb    # Full notebook: all 5 tasks
+├── confusion_matrix.png  # Confusion matrix visualization
+├── README.md             # This file
 ```
 
 ## How to Run
